@@ -7,7 +7,7 @@ help:
 
 .PHONY: test-python
 test-python: ## test python ## make test-python
-	pytest ./test -vv --cov=./{your_module} --cov-report=html
+	pytest ./test -vv --cov=./darkspace --cov-report=html
 
 .PHONY: deploy
 deploy: ## deploy to PyPI ## make deploy
@@ -23,4 +23,4 @@ wheel: clean ## generate wheel ## make wheel
 
 .PHONY: clean
 clean: ## remove all files in dist ## make clean
-	rm -f -r {your_module}.egg-info/* dist/* -y
+	rm -f -r darkspace.egg-info/* dist/* -y
