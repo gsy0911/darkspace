@@ -5,12 +5,13 @@ description = ""
 authors = ["gsy0911 <yoshiki0911@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "3.9"
 opencv-contrib-python = "^4.5.2"
 rawpy = "^0.16.0"
 Pillow = "^8.2.0"
 imageio = "^2.9.0"
 matplotlib = "^3.4.2"
+scipy = "^1.6.3"
 
 [tool.poetry.dev-dependencies]
 jupyterlab = "^2.1.1"

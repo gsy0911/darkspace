@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import rawpy
+from scipy.interpolate import splrep, splev
 
 from .utils import histogram
 
@@ -28,6 +29,30 @@ class Core:
     def add_process(self, **kwargs):
         self.processed_list.append(kwargs)
         return self
+
+    def tone_curve(self, low: float, high: float):
+        """
+
+        Args:
+            low: where 0 < low < 0.5
+            high: where 0.5 < high < 1
+
+        See Also:
+            https://campkougaku.com/2020/01/15/rawpy-tone/
+
+        Returns:
+
+        """
+        xs = [0, 0.25, 0.5, 0.75, 1]
+        ys = [0, low, 0.5, high, 1]
+
+        # spline
+        tck = splrep(xs, ys)
+        # normalization
+        img = self.processed / 256
+        # apply spline
+        img = splev(img, tck)
+        return img
 
     @staticmethod
     def _histogram(img: np.ndarray, ax):
