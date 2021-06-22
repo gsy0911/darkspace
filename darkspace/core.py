@@ -1,3 +1,4 @@
+import imageio
 import matplotlib.pyplot as plt
 import numpy as np
 import rawpy
@@ -9,10 +10,22 @@ from .utils import histogram
 class Core:
 
     def __init__(self, file_path: str):
+        # file
+        self.file_path = file_path
+        self.file_dir, self.file_name = self._split_file(file_path=file_path)
+
+        # image
         self.raw = rawpy.imread(file_path)
         self.img: np.ndarray = self.raw.raw_image
         self.processed = self.raw.postprocess()
         self.processed_list = [{}]
+
+    @staticmethod
+    def _split_file(file_path: str) -> (str, str):
+        split = file_path.rsplit("/", 1)
+        file_dir = split[0]
+        file_name = split[1].split(".")[0]
+        return file_dir, file_name
 
     def show(self, width: int = 20, height: int = 8):
         rows = len(self.processed_list)
@@ -25,6 +38,15 @@ class Core:
             # plot color histogram
             self._histogram(img, ax[idx, 1])
         return None
+
+    def imwrite(self, file_name: str = None, file_dir: str = None):
+        if not file_dir and file_name:
+            uri = f"{self.file_dir}/{file_name}"
+        elif file_dir and not file_name:
+            uri = f"{file_dir}/{self.file_name}"
+        else:
+            uri = f"{self.file_dir}/{self.file_name}"
+        return imageio.imwrite(uri=f"{uri}.jpg", im=self.processed)
 
     def add_process(self, **kwargs):
         self.processed_list.append(kwargs)
